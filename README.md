@@ -1,8 +1,8 @@
-# HuHoBot Adapter
+# HuHoBot Mcdreforged Adapter
 
-[![GitHub Release](https://img.shields.io/github/v/release/HuHoBot/KotlinMergeAdapter?style=for-the-badge)](https://github.com/HuHoBot/KotlinMergeAdapter/releases)
-[![License](https://img.shields.io/github/license/HuHoBot/KotlinMergeAdapter?style=for-the-badge)](https://github.com/HuHoBot/KotlinMergeAdapter/blob/main/LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/HuHoBot/KotlinMergeAdapter/build.yml?style=for-the-badge)](https://github.com/HuHoBot/KotlinMergeAdapter/actions)
+[![GitHub Release](https://img.shields.io/github/v/release/HuHoBot/MCDRAdapter?style=for-the-badge)](https://github.com/HuHoBot/MCDRAdapter/releases)
+[![License](https://img.shields.io/github/license/HuHoBot/MCDRAdapter?style=for-the-badge)](https://github.com/HuHoBot/MCDRAdapter/blob/main/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/HuHoBot/MCDRAdapter/build.yml?style=for-the-badge)](https://github.com/HuHoBot/MCDRAdapter/actions)
 
 新一代Minecraft服务器管理机器人解决方案，突破传统机器人框架限制，提供更安全稳定的交互体验。
 
@@ -20,12 +20,8 @@
 ### 核心功能
 
 - **无缝绑定**：通过WebSocket实现服务器与控制端即时绑定
-- **多平台支持**：适配Spigot/Paper 1.8+ 全版本
-- **多平台支持**: 支持Nukkit/Allay/
-- **多平台支持**: 支持Forge/Fabric [点我跳转](https://github.com/HuHoBot/ArchitecturyAdapter)
-- **多平台支持**: 支持Velocity/BungeeCord (需按文档配置)
+- **多平台支持**：适配Mcdreforged 2.0+ 全版本
 - **智能风控规避**：基于事件驱动的非侵入式通信协议
-- **支持Folia**: 支持Folia服务端运行
 
 ### 功能列表
 
@@ -57,21 +53,16 @@
 
 ### 环境要求
 
-- Spigot:Java `8+` Runtime
-- Fabric/Forge:Java `17+` Runtime
-- Nukkit-Mot: Java `17+` Runtime
-- AllayMC: Java `21+` Runtime
-- **任意支持的 Spigot/Paper 核心**（包括但不限于 1.8+ 版本）
-- **Architectury支持的 Forge/Fabric(0.16.5+) 核心**
+- Python `3.9+`
 
 ### 快速开始
 
 1. **访问 GitHub Releases 页面**：
-  - 打开浏览器，访问 [HuHoBot-Adapter Releases](https://github.com/HuHoBot/KotlinMergeAdapter/releases)
-  - 下载最新版本的 `HuHoBot-vx.x.x-(对应服务端).jar` 文件
+  - 打开浏览器，访问 [HuHoBot-Adapter Releases](https://github.com/HuHoBot/MCDRAdapter/releases)
+  - 下载最新版本的 `HuHoBot-vx.x.x.mcdr` 文件
 
 2. **放置插件文件**：
-  - 将下载的 `HuHoBot-vx.x.x-(对应服务端).jar` 文件放入服务器的 `plugins`或 `mods` 目录中
+  - 将下载的 `HuHoBot-vx.x.x.mcdr` 文件放入服务器的 `plugins` 目录中
 
 3. **重启服务器**：
   - 重启你的 Minecraft 服务器以加载新插件
@@ -135,7 +126,7 @@ customCommand:
 
 <details>
 <summary>🔧 如何更新配置？</summary>
-支持热重载配置：<code>/huhobot reload</code>
+支持热重载配置：<code>!!huhobot reload</code>
 </details>
 
 <details>
@@ -155,7 +146,7 @@ customCommand:
 <summary>🔍 查在线无反应怎么办？</summary>
 排查步骤：  
 
-1. 检查连接状态，使用 <code>/huhobot reconnect</code> 重连
+1. 检查连接状态，使用 <code>!!huhobot reload</code> 重连
 
 2. 尝试清空 motdUrl 字段：<code>"motdUrl": ""</code>
 
@@ -214,10 +205,6 @@ customCommand:
     permission: 1
 ```
 
-#### 查看开发文档
-
-如果你需要更详细的开发指南和高级功能，请查阅[开发文档](docs/develop.md)。
-
 ## 📄 开源协议
 
 [GNU General Public License v3.0](LICENSE) - 自由使用、修改和分发，但需遵守以下条款：
@@ -230,5 +217,5 @@ customCommand:
 
 ## 🤝 参与贡献
 
-欢迎提交PR或通过[Discussions](https://github.com/HuHoBot/KotlinMergeAdapter/discussions)提出建议
+欢迎提交PR或通过[Discussions](https://github.com/HuHoBot/MCDRAdapter/discussions)提出建议
 

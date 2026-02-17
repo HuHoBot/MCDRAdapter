@@ -111,7 +111,6 @@ def _cmd_status(source: CommandSource):
         status = "已连接" if connected else "未连接"
         source.reply(f"[HuHoBot] 连接状态: {status}")
         source.reply(f"[HuHoBot] 服务器 ID: {config.serverId}")
-        source.reply(f"[HuHoBot] WebSocket 地址: {WS_URL}")
     else:
         source.reply("[HuHoBot] WebSocket 客户端未初始化")
 
@@ -119,7 +118,7 @@ def _cmd_status(source: CommandSource):
 def _cmd_reload(source: CommandSource):
     global ws_client, config, event_handler, server_interface
 
-    server = source.get_server().as_plugin_server_interface(PLUGIN_ID)
+    server = source.get_server().as_plugin_server_interface()
     server_interface = server
 
     if ws_client:

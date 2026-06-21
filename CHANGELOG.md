@@ -1,7 +1,9 @@
-# HuHoBot-Adapter v2.0.9
+# HuHoBot-MCDR-Adapter v1.0.2
 
-feat(bot): 优化重连机制并更新配置版本
-- 重构了 `ClientManager` 中的重连逻辑，改用异步任务调度替代同步等待
+### feat(core): 添加玩家进出服务器事件推送功能
+- 在 ClientManager 中新增 postCustomChat 方法用于发送自定义消息
+- 实现玩家加入和离开时向机器人发送自定义格式消息
 
-feat(spigot): 优化重连机制并更新配置版本
-- 更新配置，添加`CommandSender`配置项，移除`CommandExecutionSort`配置项
+### feat(motd): 添加自定义Markdown功能支持
+- 在Motd配置中新增customMarkdown选项
+- 读取config同目录下的online.md文件作为自定义Markdown

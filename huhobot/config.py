@@ -6,7 +6,7 @@ import base64
 _WS_URL_ENC = "d3M6Ly9tYy54Znl3ei5jbjoyNTY3MQ=="
 WS_URL = base64.b64decode(_WS_URL_ENC).decode()
 PLATFORM = "MCDR"
-PLUGIN_VERSION = "1.0.0"
+PLUGIN_VERSION = "1.0.2"
 
 
 class ChatFormat(Serializable):

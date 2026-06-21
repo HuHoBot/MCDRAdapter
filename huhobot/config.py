@@ -23,12 +23,22 @@ class MotdConfig(Serializable):
     text: str = "共{online}人在线"
     output_online_list: bool = True
     post_img: bool = True
+    markdown: bool = True
+    customMarkdown: bool = False
 
 
 class WhiteListConfig(Serializable):
     addCommand: str = "whitelist add {id}"
     delCommand: str = "whitelist remove {id}"
 
+class PostEventSubConfig(Serializable):
+    enable: bool = False
+    formatString: str = "玩家 {playerName} 加入了服务器"
+
+
+class PostEventConfig(Serializable):
+    onJoin: PostEventSubConfig = PostEventSubConfig.get_default()
+    onLeft: PostEventSubConfig = PostEventSubConfig.get_default()
 
 class HuHoBotConfig(Serializable):
     serverId: str = ""
@@ -37,6 +47,7 @@ class HuHoBotConfig(Serializable):
     chatFormat: ChatFormat = ChatFormat.get_default()
     motd: MotdConfig = MotdConfig.get_default()
     whitelist: WhiteListConfig = WhiteListConfig.get_default()
+    postEvent: PostEventConfig = PostEventConfig.get_default()
     customCommand: list = []
     callbackConvertImg: int = 1
-    version: int = 1
+    version: int = 2

@@ -27,6 +27,14 @@ def _save_config(server: PluginServerInterface):
     server.save_config_simple(config, "config.json")
 
 
+def _upgrade_config(server: PluginServerInterface):
+    global config
+    if config.version < 2:
+        config.version = 2
+        server.save_config_simple(config, "config.json")
+        server.logger.info("配置已自动升级到 version 2，新增 postEvent / motd.markdown / motd.customMarkdown 字段")
+
+
 def on_load(server: PluginServerInterface, old):
     global ws_client, config, event_handler, server_interface
     server_interface = server
@@ -37,6 +45,8 @@ def on_load(server: PluginServerInterface, old):
     )
 
     _ensure_server_id(server)
+
+    _upgrade_config(server)
 
     ws_client_ref = [None]
     event_handler = EventHandler(server, config, lambda: ws_client_ref[0], _save_config, server.logger)
@@ -67,6 +77,16 @@ def on_user_info(server: PluginServerInterface, info: Info):
     if ws_client and info.is_player and info.content:
         ws_client.send_chat(info.player, info.content)
 
+
+
+def on_player_joined(server: PluginServerInterface, player: str, info: Info):
+    if event_handler:
+        event_handler.on_player_joined(player)
+
+
+def on_player_left(server: PluginServerInterface, player: str):
+    if event_handler:
+        event_handler.on_player_left(player)
 
 
 def on_server_stop(server: PluginServerInterface, server_return_code: int):
@@ -130,6 +150,8 @@ def _cmd_reload(source: CommandSource):
     )
 
     _ensure_server_id(server)
+
+    _upgrade_config(server)
 
     ws_client_ref = [None]
     event_handler = EventHandler(server, config, lambda: ws_client_ref[0], _save_config, server.logger)

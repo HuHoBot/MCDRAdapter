@@ -1,5 +1,6 @@
 import re
 import threading
+import uuid
 
 
 class EventHandler:
@@ -149,6 +150,19 @@ class EventHandler:
 
     # ======================== 在线玩家查询 ========================
 
+    def _read_online_markdown(self) -> str:
+        from pathlib import Path
+        data_folder = self.server.get_data_folder()
+        markdown_file = Path(data_folder) / "online.md"
+        if not markdown_file.is_file():
+            self.logger.warning("未找到 online.md 文件，请检查文件是否存在。若需自定义，请新建该文件在 config 同级目录下。")
+            return ""
+        try:
+            return markdown_file.read_text(encoding="utf-8")
+        except Exception as e:
+            self.logger.warning(f"读取 online.md 失败: {e}")
+            return ""
+
     def _on_query_online(self, pack_id, body):
         """按 SDK postMotd 格式回传在线信息（参考 Kotlin AbstractQueryOnline）"""
         event = threading.Event()
@@ -172,7 +186,6 @@ class EventHandler:
             # 解析 list 命令输出，提取玩家数量和玩家列表
             # 格式: "There are X of a max of Y players online: player1, player2"
             player_names = []
-            online_count = 0
             raw_text = "\n".join(result_lines)
 
             match = re.search(r'There are (\d+) of a max of \d+ players online:(.*)', raw_text, re.DOTALL)
@@ -194,7 +207,7 @@ class EventHandler:
                     sb.append("当前没有在线玩家")
 
             sb.append("")
-            sb.append(motd.text.replace("{online}", str(online_count)))
+            sb.append(motd.text.replace("{online}", str(len(player_names))))
 
             msg_text = "\n".join(sb)
 
@@ -202,6 +215,7 @@ class EventHandler:
             server_port = motd.server_port
             api = motd.api
             post_img = motd.post_img
+            useMarkdown = motd.markdown
 
             img_url = api.replace("{server_ip}", server_ip).replace("{server_port}", str(server_port))
 
@@ -210,8 +224,13 @@ class EventHandler:
                 "url": f"{server_ip}:{server_port}",
                 "imgUrl": img_url,
                 "post_img": post_img,
-                "serverType": "java"
+                "serverType": "java",
+                "markdown": useMarkdown,
+                "currentOnline": len(player_names)
             }
+
+            if motd.customMarkdown:
+                list_data["customMarkdown"] = self._read_online_markdown()
 
             self.ws_client.send_message("queryOnline", {"list": list_data}, pack_id)
 
@@ -287,3 +306,25 @@ class EventHandler:
                 self._execute_and_respond(cmd, pack_id)
             else:
                 self.ws_client.send_response("未找到该自定义命令", "error", pack_id)
+
+    # ======================== 玩家事件转发 ========================
+
+    def on_player_joined(self, player_name: str):
+        cfg = self.config.postEvent.onJoin
+        if cfg.enable and cfg.formatString:
+            msg = cfg.formatString.replace("{playerName}", player_name)
+            self._post_custom_msg(msg,"进服")
+
+    def on_player_left(self, player_name: str):
+        cfg = self.config.postEvent.onLeft
+        if cfg.enable and cfg.formatString:
+            msg = cfg.formatString.replace("{playerName}", player_name)
+            self._post_custom_msg(msg,"退服")
+
+    def _post_custom_msg(self, msg: str, msgType:str="聊天"):
+        pack_id = uuid.uuid4().hex
+        self.ws_client.send_message("chat", {
+            "serverId": self.config.serverId,
+            "msg": msg,
+            "msgType": msgType
+        }, pack_id)

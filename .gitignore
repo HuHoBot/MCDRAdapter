@@ -8,6 +8,7 @@ build/
 *.egg
 
 .claude/
+.deepseek/
 
 # Virtual environment
 venv/

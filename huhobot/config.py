@@ -6,7 +6,7 @@ import base64
 _WS_URL_ENC = "d3M6Ly9tYy54Znl3ei5jbjoyNTY3MQ=="
 WS_URL = base64.b64decode(_WS_URL_ENC).decode()
 PLATFORM = "MCDR"
-PLUGIN_VERSION = "1.0.2"
+PLUGIN_VERSION = "1.0.3"
 
 
 class ChatFormat(Serializable):
@@ -19,7 +19,7 @@ class ChatFormat(Serializable):
 class MotdConfig(Serializable):
     server_ip: str = "play.hypixel.net"
     server_port: int = 25565
-    api: str = "https://motdbe.blackbe.work/status_img/java?host={server_ip}:{server_port}"
+    api: str = "http://motd.txssb.cn/api/app_img?ip={server_ip}&port={server_port}&dark=true&lang=zh-CN"
     text: str = "共{online}人在线"
     output_online_list: bool = True
     post_img: bool = True

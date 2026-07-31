@@ -30,6 +30,7 @@ class EventHandler:
             "sendConfig": self._on_send_config,
             "shutdown": self._on_shutdown,
             "bindRequest": self._on_bind_request,
+            "groupMember": self._on_group_member,
             "run": self._on_run,
             "runAdmin": self._on_run_admin,
         }
@@ -275,6 +276,11 @@ class EventHandler:
             self.ws_client.send_response("", "bindConfirm", pack_id)
             return True
         return False
+
+    # ======================== 群成员变更 ========================
+
+    def _on_group_member(self, pack_id, body):
+        pass
 
     # ======================== 自定义命令 ========================
 
